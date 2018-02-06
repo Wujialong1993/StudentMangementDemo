@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jwu.graduate.dao.StudentDao">
+    <insert id="addStudent" parameterType="com.jwu.graduate.domain.Student" useGeneratedKeys="true" keyProperty="studentId">
+        INSERT INTO student (
+        					 student_name,
+                             student_gender,
+                             student_age,
+                             student_grade,
+                             student_chinese,
+                             student_math,
+                             student_sport,
+                             student_update_time)
+        VALUES (
+        		#{studentName},
+                #{studentGender},
+                #{studentAge},
+                #{studentGrade},
+                #{studentChinese},
+                #{studentMath},
+                #{studentSport},
+                NOW())
+    </insert>
+    <delete id="deleteStudentById" parameterType="int">
+        DELETE FROM student
+        WHERE student_id=#{studentId}
+    </delete>
+    <update id="updateStudent" parameterType="com.jwu.graduate.domain.Student">
+        UPDATE student
+        SET student_name=#{studentName},
+            student_gender=#{studentGender},
+            student_age=#{studentAge},
+            student_grade=#{studentGrade},
+            student_chinese=#{studentChinese},
+            student_math=#{studentMath},
+            student_sport=#{studentSport},
+            student_update_time=NOW()
+        WHERE student_id=#{studentId}
+    </update>
+    <select id="getStudentById" parameterType="int" resultType="com.jwu.graduate.domain.Student">
+        SELECT *
+        FROM student
+        WHERE student_id=#{studentId}
+    </select>
+    <select id="getStudentCount" resultType="int">
+        SELECT COUNT(*)
+        FROM student
+    </select>
+    <select id="getStudentListForPage" parameterType="int" resultType="com.jwu.graduate.domain.Student">
+        SELECT *
+        FROM student
+        ORDER BY student_id
+        LIMIT #{start}, #{count}
+    </select>
+</mapper>
